@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Einkaufsliste">
     <meta name="theme-color" content="#10b981">
     <title>Meine Einkaufsliste</title>
 
-    <!-- Dynamisches App-Icon & Web-App-Manifest (Grün-Blau Farbverlauf, minimaler Einkaufswagen) -->
-    <link id="faviconLink" rel="icon" type="image/svg+xml">
+    <link id="appIconLink" rel="icon" type="image/svg+xml">
     <link id="appleTouchIcon" rel="apple-touch-icon">
     <link id="manifestLink" rel="manifest">
 
@@ -21,7 +22,6 @@
             --text-muted: #6b7280;
             --primary: #10b981;
             --primary-dark: #059669;
-            --accent-blue: #2563eb;
             --danger: #ef4444;
             --danger-bg: #fee2e2;
             --border: #e5e7eb;
@@ -38,7 +38,6 @@
                 --text-muted: #9ca3af;
                 --primary: #10b981;
                 --primary-dark: #34d399;
-                --accent-blue: #3b82f6;
                 --danger: #f87171;
                 --danger-bg: #450a0a;
                 --border: #374151;
@@ -59,7 +58,7 @@
             color: var(--text-main);
             margin: 0;
             padding: 0;
-            padding-bottom: 90px;
+            padding-bottom: 50px;
             line-height: 1.4;
         }
 
@@ -73,13 +72,24 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
 
-        .header-title {
+        .header-brand {
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        .header-logo {
+            width: 30px;
+            height: 30px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4px;
         }
 
         header h1 {
@@ -97,9 +107,9 @@
             background: rgba(255, 255, 255, 0.22);
             border: none;
             color: #ffffff;
-            padding: 8px 12px;
+            padding: 8px 11px;
             border-radius: 8px;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
@@ -108,7 +118,7 @@
         }
 
         .btn-icon:active {
-            background: rgba(255, 255, 255, 0.38);
+            background: rgba(255, 255, 255, 0.35);
         }
 
         .container {
@@ -347,6 +357,59 @@
             cursor: pointer;
         }
 
+        /* Dezentes ausklappbares Info-Feld am unteren Rand */
+        .legal-footer {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .legal-details {
+            display: inline-block;
+            width: 100%;
+            text-align: left;
+            background-color: transparent;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .legal-details summary {
+            list-style: none;
+            text-align: center;
+            cursor: pointer;
+            padding: 8px 12px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            user-select: none;
+        }
+
+        .legal-details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .legal-details[open] summary {
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .legal-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 14px;
+            line-height: 1.45;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        .legal-box p {
+            margin: 0 0 8px 0;
+        }
+
+        .legal-box p:last-child {
+            margin-bottom: 0;
+        }
+
         .modal-backdrop {
             position: fixed;
             top: 0;
@@ -468,11 +531,12 @@
 <body>
 
 <header>
-    <div class="header-title">
-        <!-- Minimalistisches Einkaufswagen-Icon (ohne Räder, ohne inneres Dreieck, ohne Haken) -->
-        <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M18 28 H30 L38 66 H76 L84 38 H33" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+    <div class="header-brand">
+        <div class="header-logo">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+        </div>
         <h1>Einkaufsliste</h1>
     </div>
     <div class="header-actions">
@@ -506,9 +570,20 @@
         <button class="btn-outline" onclick="clearCheckedItems()">✓ Gekaufte Artikel entfernen</button>
         <button class="btn-danger" onclick="resetEntireList()">🗑️ Liste komplett leeren & neu anfangen</button>
     </div>
+
+    <!-- Dezentes ausklappbares Info-Feld -->
+    <footer class="legal-footer">
+        <details class="legal-details">
+            <summary>ℹ️ Hinweise zur Nutzung & Datenschutz</summary>
+            <div class="legal-box">
+                <p><strong>Hinweis zur Nutzung &amp; Datenschutz:</strong><br>
+                Diese Web-App ist ein rein privates, nicht-kommerzielles Projekt. Alle eingegebenen Einkaufslisten und Favoriten werden ausschließlich lokal im Browser (LocalStorage) des jeweiligen Endgeräts gespeichert und nicht an einen eigenen Server übertragen. Beim Teilen einer Liste werden die Daten kodiert direkt über den generierten Link übermittelt.</p>
+                <p>Das Hosting der Seite erfolgt über GitHub Pages (GitHub Inc.). Dabei werden technisch bedingt Verbindungsdaten (wie die IP-Adresse) durch den Hoster verarbeitet. Die Nutzung erfolgt auf eigene Verantwortung; eine Gewähr für die dauerhafte Verfügbarkeit oder gegen Datenverlust im Browser-Speicher wird nicht übernommen.</p>
+            </div>
+        </details>
+    </footer>
 </div>
 
-<!-- Dialogfenster für empfangene Liste -->
 <div id="importModal" class="modal-backdrop">
     <div class="modal">
         <div class="modal-header">
@@ -520,14 +595,13 @@
             <p style="margin-bottom:0; font-size:0.9rem; color:var(--text-muted);">Wie möchtest du diese Liste übernehmen?</p>
         </div>
         <div class="modal-footer">
-            <button class="btn-primary-full" onclick="applyImportedList('append')">➕ Zu meiner Liste hinzufügen (ohne Duplikate)</button>
+            <button class="btn-primary-full" onclick="applyImportedList('append')">➕ Zu meiner Liste hinzufügen</button>
             <button class="btn-outline" onclick="applyImportedList('replace')">🔄 Meine aktuelle Liste ersetzen</button>
             <button class="btn-small" style="border:none; margin-top:4px;" onclick="closeImportModal()">Abbrechen</button>
         </div>
     </div>
 </div>
 
-<!-- Dialogfenster für manuellen Import -->
 <div id="manualImportModal" class="modal-backdrop">
     <div class="modal">
         <div class="modal-header">
@@ -544,7 +618,6 @@
     </div>
 </div>
 
-<!-- Dialogfenster für Top-20 Editor -->
 <div id="favModal" class="modal-backdrop">
     <div class="modal">
         <div class="modal-header">
@@ -571,11 +644,8 @@
 <div id="toast" class="toast"></div>
 
 <script>
-    // ==========================================
-    // APP-ICON & MANIFEST GENERATOR (Grün -> Blau Verlauf, minimalistischer Wagen)
-    // ==========================================
-    (function setupAppIconAndManifest() {
-        const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    function setupAppIconAndManifest() {
+        const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <defs>
                 <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stop-color="#10b981"/>
@@ -583,15 +653,17 @@
                 </linearGradient>
             </defs>
             <rect width="512" height="512" rx="112" fill="url(#bgGrad)"/>
-            <path d="M96 148 H156 L196 344 H386 L426 200 H172" fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+            <g fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M96 128h56l44 206a30 30 0 0 0 30 24h148a30 30 0 0 0 30-24l34-142H164"/>
+            </g>
         </svg>`;
 
-        const svgDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgIcon);
-        document.getElementById('faviconLink').href = svgDataUrl;
-        document.getElementById('appleTouchIcon').href = svgDataUrl;
+        const iconDataUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(iconSvg);
+        document.getElementById('appIconLink').href = iconDataUrl;
+        document.getElementById('appleTouchIcon').href = iconDataUrl;
 
         const manifest = {
-            name: "Einkaufsliste",
+            name: "Meine Einkaufsliste",
             short_name: "Einkaufsliste",
             start_url: window.location.pathname || "./",
             display: "standalone",
@@ -599,7 +671,7 @@
             theme_color: "#10b981",
             icons: [
                 {
-                    src: svgDataUrl,
+                    src: iconDataUrl,
                     sizes: "512x512",
                     type: "image/svg+xml",
                     purpose: "any maskable"
@@ -609,27 +681,23 @@
 
         const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
         document.getElementById('manifestLink').href = URL.createObjectURL(manifestBlob);
-    })();
+    }
 
-    // ==========================================
-    // HAUPTLOGIK DER EINKAUFSLISTE
-    // ==========================================
     const STORAGE_LIST_KEY = 'android_shopping_list_v1';
     const STORAGE_STATS_KEY = 'android_shopping_stats_v1';
-    const LAST_IMPORT_HASH_KEY = 'android_shopping_last_import_hash';
 
     let shoppingList = [];
     let itemStats = {};
     let pendingImportItems = [];
-    let pendingImportHash = '';
+    let lastProcessedHash = '';
 
     document.addEventListener('DOMContentLoaded', () => {
+        setupAppIconAndManifest();
         loadData();
         renderAll();
         checkUrlForSharedList();
     });
 
-    // Auch reagieren, falls Quick Share einen Tab wiederverwendet und nur den Hash ändert
     window.addEventListener('hashchange', () => {
         checkUrlForSharedList();
     });
@@ -818,9 +886,6 @@
         });
     }
 
-    // ==========================================
-    // TOP-20 EDITOR LOGIK
-    // ==========================================
     function openFavEditor() {
         const listContainer = document.getElementById('favEditorList');
         listContainer.innerHTML = '';
@@ -907,9 +972,6 @@
         document.getElementById('favModal').classList.remove('active');
     }
 
-    // ==========================================
-    // TEILEN & EMPFANGEN (INKL. QUICK-SHARE-DUPLIKATSCHUTZ)
-    // ==========================================
     function encodeData(obj) {
         const json = JSON.stringify(obj);
         const bytes = new TextEncoder().encode(json);
@@ -928,30 +990,32 @@
         return JSON.parse(json);
     }
 
+    function deduplicateItems(items) {
+        const seen = new Set();
+        return items.filter(item => {
+            const sig = `${item.name.trim().toLowerCase()}|${(item.qty || '').trim().toLowerCase()}`;
+            if (seen.has(sig)) return false;
+            seen.add(sig);
+            return true;
+        });
+    }
+
     async function shareList() {
         if (shoppingList.length === 0) {
             showToast('Deine Liste ist leer – nichts zum Teilen.');
             return;
         }
 
-        // Eigene Liste vor dem Teilen intern bereinigen, falls Duplikate existieren
-        const uniqueShareItems = deduplicateItems(shoppingList);
-        const compactData = uniqueShareItems.map(i => [i.name, i.qty || '', i.checked ? 1 : 0]);
+        const uniqueItems = deduplicateItems(shoppingList);
+        const compactData = uniqueItems.map(i => [i.name, i.qty || '', i.checked ? 1 : 0]);
         const encoded = encodeData(compactData);
 
-        const baseUrl = window.location.href.split('#')[0].split('?')[0];
+        const baseUrl = window.location.href.split('#')[0];
         const shareUrl = `${baseUrl}#list=${encoded}`;
-
-        const textPreview = uniqueShareItems
-            .map(i => `• ${i.name}${i.qty ? ' (' + i.qty + ')' : ''}`)
-            .join('\n');
-
         const isWebHosted = window.location.protocol.startsWith('http');
 
         if (navigator.share && isWebHosted) {
             try {
-                // WICHTIG: Nur url übergeben (oder nur text), da manche Android-Apps / Quick Share
-                // sonst url + text kombinieren und beim Öffnen doppelt verarbeiten
                 await navigator.share({
                     title: 'Meine Einkaufsliste',
                     url: shareUrl
@@ -975,21 +1039,10 @@
         const hash = window.location.hash;
         if (hash && hash.startsWith('#list=')) {
             const encoded = hash.replace('#list=', '').trim();
-
-            // Sofort aus der URL entfernen, bevor ein zweiter Tab/Intent sie erneut liest
             history.replaceState(null, '', window.location.pathname + window.location.search);
 
-            // Schutz gegen doppeltes Öffnen durch Android Quick Share (lädt Link oft 2x kurz hintereinander)
-            const lastImportRaw = sessionStorage.getItem(LAST_IMPORT_HASH_KEY);
-            if (lastImportRaw) {
-                try {
-                    const last = JSON.parse(lastImportRaw);
-                    if (last.code === encoded && (Date.now() - last.time) < 5000) {
-                        return; // Doppelten Aufruf innerhalb von 5 Sekunden ignorieren
-                    }
-                } catch (e) {}
-            }
-            sessionStorage.setItem(LAST_IMPORT_HASH_KEY, JSON.stringify({ code: encoded, time: Date.now() }));
+            if (!encoded || encoded === lastProcessedHash) return;
+            lastProcessedHash = encoded;
 
             tryParseAndShowImport(encoded);
         }
@@ -1009,34 +1062,19 @@
         if (!raw) return;
 
         if (raw.includes('#list=')) {
-            raw = raw.split('#list=')[1].split(/\s/)[0];
+            raw = raw.split('#list=')[1].trim();
         } else if (raw.includes('LISTCODE:')) {
-            raw = raw.split('LISTCODE:')[1].split(/\s/)[0].trim();
+            raw = raw.split('LISTCODE:')[1].trim();
         }
 
         closeManualImportModal();
         tryParseAndShowImport(raw);
     }
 
-    // Hilfsfunktion: Entfernt doppelte Einträge (gleicher Name + gleiche Menge, Groß-/Kleinschreibung egal)
-    function deduplicateItems(items) {
-        const seen = new Set();
-        const result = [];
-        for (const item of items) {
-            const normName = String(item.name || '').trim().toLowerCase();
-            const normQty = String(item.qty || '').trim().toLowerCase();
-            const signature = `${normName}||${normQty}`;
-            if (normName && !seen.has(signature)) {
-                seen.add(signature);
-                result.push(item);
-            }
-        }
-        return result;
-    }
-
     function tryParseAndShowImport(encodedStr) {
         try {
-            const parsed = decodeData(encodedStr);
+            const cleanEncoded = encodedStr.split('&')[0].trim();
+            const parsed = decodeData(cleanEncoded);
             if (!Array.isArray(parsed) || parsed.length === 0) {
                 throw new Error('Ungültiges Format');
             }
@@ -1048,7 +1086,6 @@
                 checked: Boolean(entry[2])
             })).filter(item => item.name !== '');
 
-            // Bereits im Empfangspaket eventuelle Duplikate herausfiltern
             pendingImportItems = deduplicateItems(rawItems);
 
             const previewEl = document.getElementById('importPreview');
@@ -1064,19 +1101,19 @@
 
     function applyImportedList(mode) {
         if (mode === 'replace') {
-            shoppingList = deduplicateItems([...pendingImportItems]);
+            shoppingList = [...pendingImportItems];
             showToast('Liste wurde ersetzt!');
         } else if (mode === 'append') {
-            // Beim Hinzufügen ebenfalls keine bereits identisch vorhandenen Artikel doppelt anlegen
-            const combined = [...pendingImportItems, ...shoppingList];
-            const beforeCount = shoppingList.length;
-            shoppingList = deduplicateItems(combined);
-            const addedCount = shoppingList.length - beforeCount;
-            if (addedCount > 0) {
-                showToast(`${addedCount} neue Artikel hinzugefügt!`);
-            } else {
-                showToast('Alle Artikel waren bereits auf deiner Liste.');
-            }
+            const existingSigs = new Set(
+                shoppingList.map(i => `${i.name.trim().toLowerCase()}|${(i.qty || '').trim().toLowerCase()}`)
+            );
+            const newUniqueItems = pendingImportItems.filter(item => {
+                const sig = `${item.name.trim().toLowerCase()}|${(item.qty || '').trim().toLowerCase()}`;
+                return !existingSigs.has(sig);
+            });
+
+            shoppingList = [...newUniqueItems, ...shoppingList];
+            showToast(`${newUniqueItems.length} neue Artikel hinzugefügt!`);
         }
 
         saveList();
